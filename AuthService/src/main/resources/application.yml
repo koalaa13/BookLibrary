@@ -1,0 +1,17 @@
+# TODO use values from env variables here
+auth:
+  jwt:
+    secret: 7f9fb1eb85763d9919dea2d3092bfff2229d87cca78f62bb9aaf35328880d410
+
+spring:
+  datasource:
+    username: postgres
+    password: mysecretpassword
+    url: jdbc:postgresql://localhost:5432/postgres
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect

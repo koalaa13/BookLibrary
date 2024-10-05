@@ -1,0 +1,33 @@
+auth:
+  jwt:
+    secret: 7f9fb1eb85763d9919dea2d3092bfff2229d87cca78f62bb9aaf35328880d410
+
+server:
+  port: 8091
+
+spring:
+  cloud:
+    gateway:
+      httpclient:
+        ssl:
+          useInsecureTrustManager: true
+      routes:
+        - id: bookstore
+          uri: http://localhost:8090
+          predicates:
+            - Path=/books/**
+          filters:
+            - RewritePath=/books/?(?<segment>.*), /$\{segment}
+            - AuthorizationFilter
+        - id: registration
+          uri: http://localhost:8080
+          predicates:
+            - Path=/registration
+          filters:
+            - RewritePath=/registration, /auth/user
+        - id: token
+          uri: http://localhost:8080
+          predicates:
+            - Path=/login
+          filters:
+            - RewritePath=/login, /auth/token

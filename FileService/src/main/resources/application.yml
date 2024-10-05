@@ -1,0 +1,9 @@
+# TODO take it from env variables
+server:
+  port: 8082
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
