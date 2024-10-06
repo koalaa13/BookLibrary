@@ -10,8 +10,8 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
-import static util.Constants.CUSTOM_USER_HEADER;
-import static util.Constants.CUSTOM_USER_ROLE_HEADER;
+import static util.HeaderConstants.CUSTOM_USER_HEADER;
+import static util.HeaderConstants.CUSTOM_USER_ROLE_HEADER;
 
 @Component
 public class AuthorizationFilter implements GatewayFilterFactory<AuthorizationFilter.Config> {

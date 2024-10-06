@@ -20,9 +20,9 @@ public class BookServiceImpl implements BookService {
     private FileServiceClient fileServiceClient;
 
     @Override
-    public String createBookInfo(MultipartFile file, String uploader) {
+    public BookInfo createBookInfo(MultipartFile file, String uploader) {
         String UUID = fileServiceClient.uploadFile(file).getUUID();
-        return bookInfoRepository.save(new BookInfo(UUID, uploader)).getId();
+        return bookInfoRepository.save(new BookInfo(UUID, uploader));
     }
 
     @Override

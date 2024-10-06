@@ -11,7 +11,9 @@ import com.example.entity.Role;
 import com.example.service.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import util.Constants;
+import util.JwtConstants;
+
+import static util.JwtConstants.JWT_ROLE_PAYLOAD_HEADER;
 
 @Service
 public class DefaultTokenService implements TokenService {
@@ -32,7 +34,7 @@ public class DefaultTokenService implements TokenService {
                 .withSubject(clientId)
                 .withIssuedAt(Date.from(now))
                 .withExpiresAt(Date.from(exp))
-                .withPayload(Map.of(Constants.JWT_ROLE_PAYLOAD_HEADER, role.toString()))
+                .withPayload(Map.of(JWT_ROLE_PAYLOAD_HEADER, role.toString()))
                 .sign(algorithm);
     }
 }

@@ -10,7 +10,8 @@ import com.example.service.TokenService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import util.Constants;
+
+import static util.JwtConstants.JWT_ROLE_PAYLOAD_HEADER;
 
 @Service
 public class DefaultTokenService implements TokenService {
@@ -51,7 +52,7 @@ public class DefaultTokenService implements TokenService {
         }
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
-            String role = decodedJWT.getClaim(Constants.JWT_ROLE_PAYLOAD_HEADER).asString();
+            String role = decodedJWT.getClaim(JWT_ROLE_PAYLOAD_HEADER).asString();
             if (role == null) {
                 throw new IncorrectAuthTokenException("Null user role in token payload");
             }

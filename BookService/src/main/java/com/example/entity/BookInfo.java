@@ -11,8 +11,10 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "book_info")
+@Table(name = BookInfo.TABLE_NAME)
 public class BookInfo {
+    public static final String TABLE_NAME = "book_info";
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -24,6 +26,7 @@ public class BookInfo {
     private String author;
     private String title;
     private String uploader;
+    private boolean moderated = false;
 
     public BookInfo() {
     }
@@ -96,5 +99,13 @@ public class BookInfo {
 
     public void setUploader(String uploader) {
         this.uploader = uploader;
+    }
+
+    public boolean isModerated() {
+        return moderated;
+    }
+
+    public void setModerated(boolean moderated) {
+        this.moderated = moderated;
     }
 }

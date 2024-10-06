@@ -3,7 +3,9 @@ package com.example.controller;
 import java.util.List;
 
 import com.example.dao.BookInfoDao;
+import com.example.entity.BookInfo;
 import com.example.service.BookService;
+import com.example.service.SendModerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,12 +21,19 @@ import util.ContextHelper;
 public class BookInfoController {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private SendModerationService sendModerationService;
 
     // TODO check file extension mb
     @PostMapping("/add")
     public String addBook(@RequestParam(name = "file") MultipartFile file) {
         String uploader = ContextHelper.getCurrentUser();
-        return bookService.createBookInfo(file, uploader);
+        BookInfo bookInfo = bookService.createBookInfo(file, uploader);
+
+        String fileUUID = bookInfo.getFileUUID();
+        sendModerationService.sendBookTextOnModeration(fileUUID);
+
+        return bookInfo.getId();
     }
 
     @PatchMapping("/update/{id}")
