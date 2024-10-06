@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import static util.KafkaConstants.BOOK_TEXT_MODERATION_TOPIC;
+import static util.KafkaConstants.BOOK_MODERATION_TOPIC;
 
 @Service
 public class SendModerationServiceImpl implements SendModerationService {
@@ -13,7 +13,7 @@ public class SendModerationServiceImpl implements SendModerationService {
     private KafkaTemplate<String, String> kafkaTemplateString;
 
     @Override
-    public void sendBookTextOnModeration(String textFileUUID) {
-        kafkaTemplateString.send(BOOK_TEXT_MODERATION_TOPIC, textFileUUID);
+    public void sendBookOnModeration(String bookInfoId) {
+        kafkaTemplateString.send(BOOK_MODERATION_TOPIC, bookInfoId);
     }
 }

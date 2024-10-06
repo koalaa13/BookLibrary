@@ -1,5 +1,5 @@
 package com.example.service;
 
 public interface SendModerationService {
-    void sendBookTextOnModeration(String textFileUUID);
+    void sendBookOnModeration(String bookInfoId);
 }

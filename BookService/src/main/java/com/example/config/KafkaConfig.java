@@ -14,7 +14,7 @@ import org.springframework.kafka.core.KafkaAdmin;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
-import static util.KafkaConstants.BOOK_TEXT_MODERATION_TOPIC;
+import static util.KafkaConstants.BOOK_MODERATION_TOPIC;
 
 @Configuration
 public class KafkaConfig {
@@ -48,8 +48,8 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic bookTextModerationTopic() {
+    public NewTopic bookModerationTopic() {
         // TODO move to application properties
-        return new NewTopic(BOOK_TEXT_MODERATION_TOPIC, 2, (short) 1);
+        return new NewTopic(BOOK_MODERATION_TOPIC, 2, (short) 1);
     }
 }

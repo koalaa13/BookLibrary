@@ -15,7 +15,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 public class KafkaConfig {
     // TODO change it to application property
     private final static String SERVER = "localhost:9091";
-    private final static String CONSUMER_GROUP_ID = "book-text-moderation-consumer-group";
+    private final static String CONSUMER_GROUP_ID = "book-moderation-consumer-group";
 
     private ConsumerFactory<String, String> consumerFactoryString() {
         Map<String, Object> props = new HashMap<>();

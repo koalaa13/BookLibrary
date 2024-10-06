@@ -3,7 +3,6 @@ package com.example.controller;
 import java.util.List;
 
 import com.example.dao.BookInfoDao;
-import com.example.entity.BookInfo;
 import com.example.service.BookService;
 import com.example.service.SendModerationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +27,16 @@ public class BookInfoController {
     @PostMapping("/add")
     public String addBook(@RequestParam(name = "file") MultipartFile file) {
         String uploader = ContextHelper.getCurrentUser();
-        BookInfo bookInfo = bookService.createBookInfo(file, uploader);
+        String bookInfoId = bookService.createBookInfo(file, uploader).getId();
 
-        String fileUUID = bookInfo.getFileUUID();
-        sendModerationService.sendBookTextOnModeration(fileUUID);
+        // TODO should do it another way
+        //  1) save in db
+        //  2) make a job that takes from db and send to kafka
+        //  3) when CompletableFuture (from KafkaTemplate.send) completes then update
+        //  moderation request in db as sent (or just delete it)
+        sendModerationService.sendBookOnModeration(bookInfoId);
 
-        return bookInfo.getId();
+        return bookInfoId;
     }
 
     @PatchMapping("/update/{id}")
