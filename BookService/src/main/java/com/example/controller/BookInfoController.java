@@ -32,7 +32,7 @@ public class BookInfoController {
         bookService.updateBookInfo(id, bookInfoDao);
     }
 
-    @GetMapping
+    @GetMapping("/uploaded")
     public List<BookInfoDao> getAllBooksOfCurrentUser() {
         return bookService.getAllBooksInfoByUploader(ContextHelper.getCurrentUser())
                 .stream()

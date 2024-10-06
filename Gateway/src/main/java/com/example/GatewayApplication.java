@@ -13,7 +13,7 @@ public class GatewayApplication {
     }
 
     @ExceptionHandler({IncorrectAuthTokenException.class})
-    public ResponseEntity<String> handleUserRegistrationException(RuntimeException ex) {
+    public ResponseEntity<String> handleJwtTokenException(RuntimeException ex) {
         return ResponseEntity
                 .badRequest()
                 .body("Incorrect jwt token: " + ex.getMessage());

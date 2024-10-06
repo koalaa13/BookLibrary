@@ -17,7 +17,6 @@
         <module>BookService</module>
         <module>FileService</module>
         <module>AuthService</module>
-        <module>Gateway</module>
         <module>SubscriptionService</module>
         <module>ModerationService</module>
     </modules>

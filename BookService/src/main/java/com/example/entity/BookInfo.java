@@ -20,7 +20,7 @@ public class BookInfo {
     @Column(name = "file_uuid")
     private String fileUUID;
     @Lob
-    private byte[] shortDescription;
+    private String shortDescription;
     private String author;
     private String title;
     private String uploader;
@@ -66,11 +66,11 @@ public class BookInfo {
         this.fileUUID = fileUUID;
     }
 
-    public byte[] getShortDescription() {
+    public String getShortDescription() {
         return shortDescription;
     }
 
-    public void setShortDescription(byte[] shortDescription) {
+    public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
     }
 
