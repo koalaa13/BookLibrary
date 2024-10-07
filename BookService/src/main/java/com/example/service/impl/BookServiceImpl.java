@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.dao.BookInfoDao;
 import com.example.entity.BookInfo;
-import com.example.exception.NoSuchEntityException;
+import exception.NoSuchEntityException;
 import com.example.feign.FileServiceClient;
 import com.example.repository.BookInfoRepository;
 import com.example.service.BookService;

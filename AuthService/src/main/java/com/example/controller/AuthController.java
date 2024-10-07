@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import annotation.HasRole;
 import com.example.dao.ErrorResponse;
 import com.example.dao.TokenResponse;
 import com.example.dao.UserCredentials;
@@ -19,14 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final ClientService clientService;
-    private final TokenService tokenService;
-
     @Autowired
-    public AuthController(ClientService clientService, TokenService tokenService) {
-        this.clientService = clientService;
-        this.tokenService = tokenService;
-    }
+    private ClientService clientService;
+    @Autowired
+    private TokenService tokenService;
 
     @PostMapping("/user")
     public ResponseEntity<String> registerUser(@RequestBody UserCredentials userCredentials) {
@@ -34,12 +31,14 @@ public class AuthController {
         return ResponseEntity.ok("Registered");
     }
 
+    @HasRole(value = "ADMIN")
     @PostMapping("/moderator")
     public ResponseEntity<String> registerModerator(@RequestBody UserCredentials userCredentials) {
         clientService.register(userCredentials.clientId, userCredentials.clientSecret, Role.MODERATOR);
         return ResponseEntity.ok("Registered");
     }
 
+    @HasRole(value = "ADMIN")
     @PostMapping("/admin")
     public ResponseEntity<String> registerAdmin(@RequestBody UserCredentials userCredentials) {
         clientService.register(userCredentials.clientId, userCredentials.clientSecret, Role.ADMIN);
