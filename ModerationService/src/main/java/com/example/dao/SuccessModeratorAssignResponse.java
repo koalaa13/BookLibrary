@@ -5,6 +5,7 @@ public class SuccessModeratorAssignResponse extends ModeratorAssignResponse {
         super(ModeratorAssignResponse.Type.SUCCESS);
     }
 
+    public String requestId;
     public String shortDescription;
     public String author;
     public String title;

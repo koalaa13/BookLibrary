@@ -3,7 +3,7 @@ package com.example.controller;
 import java.util.List;
 
 import com.example.dao.BookInfoDao;
-import com.example.exception.EntityAccessPermissionDeniedException;
+import exception.EntityAccessPermissionDeniedException;
 import com.example.feign.FileServiceClient;
 import com.example.service.BookService;
 import com.example.service.SendModerationService;

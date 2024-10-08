@@ -1,6 +1,6 @@
 package com.example.dao;
 
-public class ModerationResponseItem {
+public class ModerationResultItem {
     public static enum Type {
         NOT_MATCHING_CONTENT,
         DUPLICATION,
@@ -9,6 +9,14 @@ public class ModerationResponseItem {
         OTHER
     }
 
+    public static enum Subject {
+        TEXT,
+        AUTHOR,
+        TITLE,
+        SHORT_DESCRIPTION
+    }
+
     public Type type;
+    public Subject subject;
     public String explanation;
 }

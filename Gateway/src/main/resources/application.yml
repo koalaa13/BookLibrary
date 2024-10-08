@@ -19,12 +19,12 @@ spring:
           filters:
             - RewritePath=/books/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
-        - id: moderatorAssignRequest
+        - id: moderatorRequests
           uri: http://localhost:8092
           predicates:
-            - Path=/moderator/assign
+            - Path=/moderator/**
           filters:
-            - RewritePath=/moderator/assign, /api/v1/assign
+            - RewritePath=/moderator/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
         - id: fileModerationGet
           uri: http://localhost:8082

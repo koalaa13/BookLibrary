@@ -1,6 +1,9 @@
 package com.example.repository;
 
+import java.util.List;
+
 import com.example.entity.ModerationRequest;
+import org.apache.kafka.common.network.Mode;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -37,4 +40,15 @@ public interface ModerationRequestRepository extends CrudRepository<ModerationRe
             @Param("id") String moderationRequestId,
             @Param("moderatorId") String moderatorId
     );
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(
+            value = "UPDATE " + ModerationRequest.TABLE_NAME +
+                    " SET status = 'READY'" +
+                    " WHERE id = :id"
+    )
+    int workDone(@Param("id") String moderationRequestId);
+
+    List<ModerationRequest> findAllByModeratorId(String moderatorId);
 }
