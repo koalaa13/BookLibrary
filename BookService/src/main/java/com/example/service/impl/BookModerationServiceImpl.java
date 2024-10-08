@@ -22,6 +22,9 @@ public class BookModerationServiceImpl implements BookModerationService {
         if (bookInfo.isInModeration()) {
             throw new BadRequestSendToModerationException("Already in moderation");
         }
+        if (bookInfo.isModerationSuccess()) {
+            throw new BadRequestSendToModerationException("Moderation is already successful");
+        }
         BookInfoModerationDao dao = new BookInfoModerationDao();
         dao.author = bookInfo.getAuthor();
         dao.shortDescription = bookInfo.getShortDescription();

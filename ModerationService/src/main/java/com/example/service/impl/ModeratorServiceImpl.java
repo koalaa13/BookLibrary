@@ -109,7 +109,7 @@ public class ModeratorServiceImpl implements ModeratorService {
         try {
             moderationResultDaoKafkaTemplate.send(
                     BOOK_SEND_MODERATION_RESULT_TOPIC,
-                    new ModerationResultDao(request.getBookInfo().bookId, result.getId())
+                    new ModerationResultDao(request.getBookInfo().bookId, result.getId(), resultItems.isEmpty())
             ).get(2, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new InternalServerSubmitModerationResultException("Error happened when submit moderation result", e);

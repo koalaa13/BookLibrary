@@ -28,6 +28,7 @@ public class BookInfo {
     private String uploader;
     private boolean inModeration = false;
     private String moderationResultId;
+    private boolean moderationSuccess = false;
 
     public BookInfo() {
     }
@@ -118,5 +119,13 @@ public class BookInfo {
 
     public void setModerationResultId(String moderationResultId) {
         this.moderationResultId = moderationResultId;
+    }
+
+    public boolean isModerationSuccess() {
+        return moderationSuccess;
+    }
+
+    public void setModerationSuccess(boolean moderationSuccess) {
+        this.moderationSuccess = moderationSuccess;
     }
 }

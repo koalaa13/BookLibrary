@@ -14,25 +14,30 @@ import org.springframework.transaction.annotation.Transactional;
 public interface BookInfoRepository extends CrudRepository<BookInfo, String> {
     List<BookInfo> findAllByUploader(String uploader);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE " + BookInfo.TABLE_NAME +
             " SET inModeration = :inModeration" +
             " WHERE id = :id")
     void updateInModeration(@Param("id") String bookId, @Param("inModeration") boolean newValue);
 
     @Query(
-            value = "SELECT moderationResultId IS NOT NULL" +
+            value = "SELECT moderationSuccess" +
                     " FROM " + BookInfo.TABLE_NAME +
                     " WHERE id = :id"
     )
     boolean isModerated(@Param("id") String bookId);
 
-    @Transactional
-    @Modifying(clearAutomatically = true)
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query(
             value = "UPDATE " + BookInfo.TABLE_NAME +
-                    " SET moderationResultId = :moderationResultId" +
+                    " SET moderationResultId = :moderationResultId," +
+                    " moderationSuccess = :moderationSuccess," +
+                    " inModeration = false" +
                     " WHERE id = :id"
     )
-    void updateModerationResult(@Param("id") String bookId, @Param("moderationResultId") String moderationResultId);
+    void updateModerationResult(
+            @Param("id") String bookId,
+            @Param("moderationResultId") String moderationResultId,
+            @Param("moderationSuccess") boolean moderationSuccess
+    );
 }
