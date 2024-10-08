@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 
-@Entity
+@Entity(name = BookInfo.TABLE_NAME)
 @Table(name = BookInfo.TABLE_NAME)
 public class BookInfo {
     public static final String TABLE_NAME = "book_info";
@@ -27,12 +27,15 @@ public class BookInfo {
     private String title;
     private String uploader;
     private boolean moderated = false;
+    private boolean inModeration = false;
 
     public BookInfo() {
     }
 
-    public BookInfo(String fileUUID, String uploader) {
-        this.fileUUID = fileUUID;
+    public BookInfo(String shortDescription, String author, String title, String uploader) {
+        this.shortDescription = shortDescription;
+        this.author = author;
+        this.title = title;
         this.uploader = uploader;
     }
 
@@ -107,5 +110,13 @@ public class BookInfo {
 
     public void setModerated(boolean moderated) {
         this.moderated = moderated;
+    }
+
+    public boolean isInModeration() {
+        return inModeration;
+    }
+
+    public void setInModeration(boolean inModeration) {
+        this.inModeration = inModeration;
     }
 }

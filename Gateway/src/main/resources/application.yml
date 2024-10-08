@@ -17,7 +17,21 @@ spring:
           predicates:
             - Path=/books/**
           filters:
-            - RewritePath=/books/?(?<segment>.*), /$\{segment}
+            - RewritePath=/books/?(?<segment>.*), /api/v1/$\{segment}
+            - AuthorizationFilter
+        - id: moderatorAssignRequest
+          uri: http://localhost:8092
+          predicates:
+            - Path=/moderator/assign
+          filters:
+            - RewritePath=/moderator/assign, /api/v1/assign
+            - AuthorizationFilter
+        - id: fileModerationGet
+          uri: http://localhost:8082
+          predicates:
+            - Path=/files/**
+          filters:
+            - RewritePath=/files/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
         - id: registration
           uri: http://localhost:8080
@@ -25,6 +39,18 @@ spring:
             - Path=/registration
           filters:
             - RewritePath=/registration, /auth/user
+        - id: moderatorRegistration
+          uri: http://localhost:8080
+          predicates:
+            - Path=/registration/moderator
+          filters:
+            - RewritePath=/registration/moderator, /auth/moderator
+        - id: adminRegistration
+          uri: http://localhost:8080
+          predicates:
+            - Path=/registration/admin
+          filters:
+            - RewritePath=/registration/admin, /auth/admin
         - id: token
           uri: http://localhost:8080
           predicates:

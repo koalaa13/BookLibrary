@@ -1,12 +1,13 @@
 package util;
 
+import exception.IncorrectRoleException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import static util.HeaderConstants.CUSTOM_USER_HEADER;
-import static util.HeaderConstants.CUSTOM_USER_ROLE_HEADER;
+import static util.HttpConstants.CUSTOM_USER_HEADER;
+import static util.HttpConstants.CUSTOM_USER_ROLE_HEADER;
 
 public class ContextHelper {
     public static HttpServletRequest getCurrentRequest() {
@@ -31,5 +32,11 @@ public class ContextHelper {
             return request.getHeader(CUSTOM_USER_ROLE_HEADER);
         }
         return null;
+    }
+
+    public static void checkCurrentRole(String role) {
+        if (!role.equals(getCurrentUserRole())) {
+            throw new IncorrectRoleException("Incorrect user role");
+        }
     }
 }

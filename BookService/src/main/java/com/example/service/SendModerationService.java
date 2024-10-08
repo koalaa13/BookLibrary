@@ -1,5 +1,5 @@
 package com.example.service;
 
 public interface SendModerationService {
-    void sendBookOnModeration(String bookInfoId);
+    void sendBookOnModeration(String bookId);
 }

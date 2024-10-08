@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import annotation.HasRole;
 import com.example.dao.ErrorResponse;
 import com.example.dao.TokenResponse;
 import com.example.dao.UserCredentials;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import util.ContextHelper;
 
 @RestController
 @RequestMapping("/auth")
@@ -31,16 +31,16 @@ public class AuthController {
         return ResponseEntity.ok("Registered");
     }
 
-    @HasRole(value = "ADMIN")
     @PostMapping("/moderator")
     public ResponseEntity<String> registerModerator(@RequestBody UserCredentials userCredentials) {
+        ContextHelper.checkCurrentRole("ADMIN");
         clientService.register(userCredentials.clientId, userCredentials.clientSecret, Role.MODERATOR);
         return ResponseEntity.ok("Registered");
     }
 
-    @HasRole(value = "ADMIN")
     @PostMapping("/admin")
     public ResponseEntity<String> registerAdmin(@RequestBody UserCredentials userCredentials) {
+        ContextHelper.checkCurrentRole("ADMIN");
         clientService.register(userCredentials.clientId, userCredentials.clientSecret, Role.ADMIN);
         return ResponseEntity.ok("Registered");
     }

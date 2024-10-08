@@ -21,13 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-public class FileUploadController {
-    private final StorageService storageService;
-
+public class FilePrivateController {
     @Autowired
-    public FileUploadController(StorageService storageService) {
-        this.storageService = storageService;
-    }
+    private StorageService storageService;
 
     @GetMapping("/download/{UUID:.+}")
     @ResponseBody
@@ -50,12 +46,7 @@ public class FileUploadController {
     public FileResponse uploadFile(@RequestParam("file") MultipartFile file) {
         String name = storageService.store(file);
 
-        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path("/download/")
-                .path(name)
-                .toUriString();
-
-        return new FileResponse(name, uri, file.getContentType(), file.getSize());
+        return new FileResponse(name, file.getContentType(), file.getSize());
     }
 
     @PostMapping("/upload-multiple-files")

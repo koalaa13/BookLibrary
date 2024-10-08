@@ -2,16 +2,14 @@ package dao;
 
 public class FileResponse {
     private String UUID;
-    private String uri;
     private String type;
     private long size;
 
     public FileResponse() {
     }
 
-    public FileResponse(String name, String uri, String type, long size) {
+    public FileResponse(String name, String type, long size) {
         this.UUID = name;
-        this.uri = uri;
         this.type = type;
         this.size = size;
     }
@@ -22,14 +20,6 @@ public class FileResponse {
 
     public void setUUID(String UUID) {
         this.UUID = UUID;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void setUri(String uri) {
-        this.uri = uri;
     }
 
     public String getType() {
@@ -52,7 +42,6 @@ public class FileResponse {
     public String toString() {
         return "FileResponse{" +
                 "name='" + UUID + '\'' +
-                ", uri='" + uri + '\'' +
                 ", type='" + type + '\'' +
                 ", size=" + size +
                 '}';
