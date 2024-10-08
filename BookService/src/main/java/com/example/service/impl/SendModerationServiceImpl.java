@@ -15,12 +15,12 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static util.KafkaConstants.BOOK_MODERATION_TOPIC;
+import static util.KafkaConstants.BOOK_SEND_MODERATION_TOPIC;
 
 @Service
 public class SendModerationServiceImpl implements SendModerationService {
     @Autowired
-    private KafkaTemplate<String, BookInfoModerationDao> kafkaTemplateBooKInfoModerationDao;
+    private KafkaTemplate<String, BookInfoModerationDao> bookInfoModerationDaoKafkaTemplate;
     @Autowired
     private BookInfoRepository bookInfoRepository;
     @Autowired
@@ -35,7 +35,7 @@ public class SendModerationServiceImpl implements SendModerationService {
         bookInfoRepository.updateInModeration(bookId, true);
 
         try {
-            kafkaTemplateBooKInfoModerationDao.send(BOOK_MODERATION_TOPIC, dao).get(2, TimeUnit.SECONDS);
+            bookInfoModerationDaoKafkaTemplate.send(BOOK_SEND_MODERATION_TOPIC, dao).get(2, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new InternalServerSendToModerationException("Error happened when sending book on moderation", e);
         }

@@ -26,8 +26,8 @@ public class BookInfo {
     private String author;
     private String title;
     private String uploader;
-    private boolean moderated = false;
     private boolean inModeration = false;
+    private String moderationResultId;
 
     public BookInfo() {
     }
@@ -104,19 +104,19 @@ public class BookInfo {
         this.uploader = uploader;
     }
 
-    public boolean isModerated() {
-        return moderated;
-    }
-
-    public void setModerated(boolean moderated) {
-        this.moderated = moderated;
-    }
-
     public boolean isInModeration() {
         return inModeration;
     }
 
     public void setInModeration(boolean inModeration) {
         this.inModeration = inModeration;
+    }
+
+    public String getModerationResultId() {
+        return moderationResultId;
+    }
+
+    public void setModerationResultId(String moderationResultId) {
+        this.moderationResultId = moderationResultId;
     }
 }

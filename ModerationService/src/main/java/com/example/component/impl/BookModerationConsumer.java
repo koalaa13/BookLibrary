@@ -1,7 +1,6 @@
 package com.example.component.impl;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 import com.example.entity.ModerationRequest;
 import com.example.repository.ModerationRequestRepository;
@@ -11,7 +10,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import static util.KafkaConstants.BOOK_MODERATION_TOPIC;
+import static util.KafkaConstants.BOOK_SEND_MODERATION_TOPIC;
 
 @Component
 public class BookModerationConsumer {
@@ -19,7 +18,7 @@ public class BookModerationConsumer {
     private ModerationRequestRepository moderationRequestRepository;
 
     @Transactional
-    @KafkaListener(topics = BOOK_MODERATION_TOPIC, containerFactory = "kafkaListenerContainerFactoryMessage")
+    @KafkaListener(topics = BOOK_SEND_MODERATION_TOPIC, containerFactory = "kafkaListenerContainerFactoryMessage")
     public void acceptModerationRequest(BookInfoModerationDao dao) {
         if (moderationRequestRepository.existsUnmoderatedByBookId(dao.bookId)) {
             return;

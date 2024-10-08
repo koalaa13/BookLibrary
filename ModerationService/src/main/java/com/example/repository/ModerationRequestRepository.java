@@ -15,7 +15,7 @@ public interface ModerationRequestRepository extends CrudRepository<ModerationRe
             nativeQuery = true,
             value = "SELECT CASE WHEN (COUNT(*) > 0) THEN TRUE ELSE FALSE END" +
                     " FROM " + ModerationRequest.TABLE_NAME +
-                    " WHERE book_info->>'bookId' = ? AND status = 'WAITING_MODERATOR'"
+                    " WHERE book_info->>'bookId' = ? AND status IN ('WAITING_MODERATOR', 'TAKEN_TO_WORK')"
     )
     boolean existsUnmoderatedByBookId(String bookId);
 
