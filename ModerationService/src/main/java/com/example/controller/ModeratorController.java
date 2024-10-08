@@ -2,7 +2,7 @@ package com.example.controller;
 
 import java.util.List;
 
-import com.example.dao.ModerationResultItem;
+import dao.ModerationResultItem;
 import com.example.dao.ModeratorAssignResponse;
 import com.example.dao.SuccessModeratorAssignResponse;
 import com.example.service.ModeratorService;
@@ -30,10 +30,7 @@ public class ModeratorController {
 
     @GetMapping("/assignedTo/{userId}")
     public List<SuccessModeratorAssignResponse> getAllAssigned(@PathVariable("userId") String userId) {
-        String currentUser = ContextHelper.getCurrentUser();
-        if (!"ADMIN".equals(ContextHelper.getCurrentUserRole()) && !userId.equals(currentUser)) {
-            throw new EntityAccessPermissionDeniedException("Have no permissions to get another user's books");
-        }
+        ContextHelper.checkEntityAccess(userId, "Have no permissions to get another user's books");
         return moderatorService.getAssignedTo(userId);
     }
 

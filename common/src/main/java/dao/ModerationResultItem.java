@@ -1,4 +1,4 @@
-package com.example.dao;
+package dao;
 
 public class ModerationResultItem {
     public static enum Type {

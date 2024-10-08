@@ -8,7 +8,7 @@ import java.util.concurrent.TimeoutException;
 
 import com.example.component.ModerationRequestSelector;
 import com.example.dao.FailedModeratorAssignResponse;
-import com.example.dao.ModerationResultItem;
+import dao.ModerationResultItem;
 import com.example.dao.ModeratorAssignResponse;
 import com.example.dao.SuccessModeratorAssignResponse;
 import com.example.entity.ModerationRequest;
@@ -19,7 +19,6 @@ import com.example.repository.ModerationRequestRepository;
 import com.example.repository.ModerationResultRepository;
 import com.example.service.ModeratorService;
 import dao.ModerationResultDao;
-import exception.EntityAccessPermissionDeniedException;
 import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;

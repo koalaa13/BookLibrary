@@ -2,7 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
-import com.example.dao.ModerationResultItem;
+import dao.ModerationResultItem;
 import com.example.dao.ModeratorAssignResponse;
 import com.example.dao.SuccessModeratorAssignResponse;
 

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 
-import com.example.dao.ModerationResultItem;
+import dao.ModerationResultItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
