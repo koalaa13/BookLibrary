@@ -93,10 +93,12 @@ public class BookServiceImpl implements BookService {
                             "Book was not send to moderation"
             );
         } else {
-            return new ModerationResultWithErrorsResponse(
-                    "Moderators found some errors",
-                    moderationServiceClient.getModerationResultItems(moderationResultId)
-            );
+            return bookInfo.isModerationSuccess() ?
+                    new ModerationResultMessageResponse("Moderation is successful") :
+                    new ModerationResultWithErrorsResponse(
+                            "Moderators found some errors",
+                            moderationServiceClient.getModerationResultItems(moderationResultId)
+                    );
         }
     }
 }
