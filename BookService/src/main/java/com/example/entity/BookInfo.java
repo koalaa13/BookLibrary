@@ -1,7 +1,10 @@
 package com.example.entity;
 
+import java.math.BigInteger;
+import java.time.Instant;
 import java.util.Objects;
 
+import com.example.dao.BookInfoDao;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +22,7 @@ public class BookInfo {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    private Instant createdAt;
     @Column(name = "file_uuid")
     private String fileUUID;
     @Lob
@@ -29,15 +33,24 @@ public class BookInfo {
     private boolean inModeration = false;
     private String moderationResultId;
     private boolean moderationSuccess = false;
+    private BigInteger price;
 
     public BookInfo() {
     }
 
-    public BookInfo(String shortDescription, String author, String title, String uploader) {
+    public BookInfo(
+            String shortDescription,
+            String author,
+            String title,
+            String uploader,
+            Instant createdAt,
+            BigInteger price
+    ) {
         this.shortDescription = shortDescription;
         this.author = author;
         this.title = title;
         this.uploader = uploader;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -127,5 +140,21 @@ public class BookInfo {
 
     public void setModerationSuccess(boolean moderationSuccess) {
         this.moderationSuccess = moderationSuccess;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public BigInteger getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigInteger price) {
+        this.price = price;
     }
 }

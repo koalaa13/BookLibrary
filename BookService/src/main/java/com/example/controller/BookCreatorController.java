@@ -5,7 +5,6 @@ import java.util.List;
 import com.example.dao.BookInfoDao;
 import com.example.dao.ModerationResultResponse;
 import com.example.feign.FileServiceClient;
-import com.example.feign.ModerationServiceClient;
 import com.example.service.BookService;
 import com.example.service.SendModerationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ import util.ContextHelper;
 
 @RestController
 @RequestMapping("/api/v1")
-public class BookInfoController {
+public class BookCreatorController {
     @Autowired
     private BookService bookService;
     @Autowired
@@ -77,7 +76,8 @@ public class BookInfoController {
                                 bookInfo.getShortDescription(),
                                 bookInfo.getAuthor(),
                                 bookInfo.getTitle(),
-                                bookInfo.isInModeration()
+                                bookInfo.isInModeration(),
+                                bookInfo.getPrice()
                         )
                 )
                 .toList();

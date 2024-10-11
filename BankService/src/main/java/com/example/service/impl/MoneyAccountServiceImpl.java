@@ -1,11 +1,11 @@
 package com.example.service.impl;
 
 import java.math.BigInteger;
-import java.util.Optional;
 
 import com.example.entity.MoneyAccount;
 import com.example.repository.MoneyAccountRepository;
 import com.example.service.MoneyAccountService;
+import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +17,20 @@ public class MoneyAccountServiceImpl implements MoneyAccountService {
 
     @Transactional
     @Override
-    public void addMoney(String userId, BigInteger amount) {
-        Optional<MoneyAccount> accountOptional = moneyAccountRepository.findByUserId(userId);
-        if (accountOptional.isPresent()) {
-            MoneyAccount account = accountOptional.get();
-            account.setBalance(account.getBalance().add(amount));
-            moneyAccountRepository.save(account);
-        } else {
-            moneyAccountRepository.save(new MoneyAccount(userId, amount));
+    public void createAccount(String userId) {
+        if (moneyAccountRepository.existsByUserId(userId)) {
+            return;
         }
+        MoneyAccount moneyAccount = new MoneyAccount(userId, BigInteger.ZERO);
+        moneyAccountRepository.save(moneyAccount);
+    }
+
+    @Transactional
+    @Override
+    public void addMoney(String userId, BigInteger amount) {
+        MoneyAccount account = moneyAccountRepository.findByUserId(userId)
+                .orElseThrow(() -> new NoSuchEntityException("No account for user " + userId));
+        account.setBalance(account.getBalance().add(amount));
+        moneyAccountRepository.save(account);
     }
 }

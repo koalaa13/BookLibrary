@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import java.time.Instant;
 import java.util.List;
 
 import com.example.dao.BookInfoDao;
@@ -30,7 +31,9 @@ public class BookServiceImpl implements BookService {
                         bookInfoDao.shortDescription,
                         bookInfoDao.author,
                         bookInfoDao.title,
-                        uploader
+                        uploader,
+                        Instant.now(),
+                        bookInfoDao.price
                 )
         );
     }

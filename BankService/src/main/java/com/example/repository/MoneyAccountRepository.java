@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MoneyAccountRepository extends CrudRepository<MoneyAccount, String> {
     Optional<MoneyAccount> findByUserId(String userId);
+    boolean existsByUserId(String userId);
 }

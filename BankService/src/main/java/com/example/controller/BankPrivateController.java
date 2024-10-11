@@ -14,8 +14,15 @@ public class BankPrivateController {
     @Autowired
     private MoneyAccountService moneyAccountService;
 
+    @PostMapping("/create")
+    public boolean createAccount(@Param("userId") String userId) {
+        moneyAccountService.createAccount(userId);
+        return true;
+    }
+
     @PostMapping("/add/{id}")
-    public void addMoney(@PathVariable("id") String userId, @Param("amount") BigInteger amount) {
+    public boolean addMoney(@PathVariable("id") String userId, @Param("amount") BigInteger amount) {
         moneyAccountService.addMoney(userId, amount);
+        return true;
     }
 }

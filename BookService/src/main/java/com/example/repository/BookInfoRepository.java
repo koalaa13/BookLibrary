@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import com.example.entity.BookInfo;
+import dao.BookInfoPriceDao;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -40,4 +41,11 @@ public interface BookInfoRepository extends CrudRepository<BookInfo, String> {
             @Param("moderationResultId") String moderationResultId,
             @Param("moderationSuccess") boolean moderationSuccess
     );
+
+    @Query(
+            value = "SELECT id AS bookId, price AS price" +
+                    " FROM " + BookInfo.TABLE_NAME +
+                    " WHERE id IN (:ids)"
+    )
+    List<BookInfoPriceDao> getPrices(@Param("ids") List<String> ids);
 }
