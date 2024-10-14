@@ -21,6 +21,7 @@ import dao.BookInfoPriceDao;
 import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import util.StringUtil;
 
 @Service
@@ -107,6 +108,7 @@ public class BookCreatorServiceImpl implements BookCreatorService {
         bookInfoRepository.save(bookInfo);
     }
 
+    @Transactional
     @Override
     public List<BookInfoForCreatorDao> getAllBooksInfoByUploader(String uploader) {
         List<BookInfo> books = bookInfoRepository.findAllByUploader(uploader);
@@ -121,7 +123,8 @@ public class BookCreatorServiceImpl implements BookCreatorService {
                                 b.isModerationSuccess(),
                                 b.getShortDescription(),
                                 b.getAuthor(),
-                                b.getTitle()
+                                b.getTitle(),
+                                b.isPublished()
                         )
                 )
                 .toList();

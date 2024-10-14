@@ -6,6 +6,7 @@ public class BookInfoForCreatorDao extends BookInfoDao {
     public BigDecimal price;
     public boolean inModeration;
     public boolean moderationSuccessful;
+    public boolean published;
 
     public BookInfoForCreatorDao(
             BigDecimal price,
@@ -13,7 +14,8 @@ public class BookInfoForCreatorDao extends BookInfoDao {
             boolean moderationSuccessful,
             String shortDescription,
             String author,
-            String title
+            String title,
+            boolean published
     ) {
         this.title = title;
         this.author = author;
@@ -21,5 +23,6 @@ public class BookInfoForCreatorDao extends BookInfoDao {
         this.price = price;
         this.inModeration = inModeration;
         this.moderationSuccessful = moderationSuccessful;
+        this.published = published;
     }
 }

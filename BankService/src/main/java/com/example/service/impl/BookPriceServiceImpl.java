@@ -49,7 +49,8 @@ public class BookPriceServiceImpl implements BookPriceService {
     @Override
     public List<BookInfoPriceDao> getPrices(List<String> bookIds) {
         List<BookInfoPriceDao> res = new ArrayList<>();
-        bookPriceRepository.findAllById(bookIds).forEach(bp -> new BookInfoPriceDao(bp.getBookId(), bp.getPrice()));
+        bookPriceRepository.findAllById(bookIds)
+                .forEach(bp -> res.add(new BookInfoPriceDao(bp.getBookId(), bp.getPrice())));
         return res;
     }
 }
