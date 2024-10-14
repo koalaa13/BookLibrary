@@ -36,7 +36,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public boolean createSubscription(String userId, List<String> bookIds, boolean infinite) {
         Instant now = Instant.now();
-        Instant expireAt = now.plus(1, ChronoUnit.MONTHS);
+        Instant expireAt = infinite ?
+                Instant.MAX :
+                now.plus(30, ChronoUnit.DAYS);
 
         String id = UUID.randomUUID().toString();
 
