@@ -29,6 +29,9 @@ public class BookReaderController {
 
     @PostMapping("/buy/{id}")
     public boolean buyBook(@PathVariable("id") String bookId) {
-        return buySubscription(List.of(bookId));
+        if (!bookReaderService.isAllBooksPublished(List.of(bookId))) {
+            return false;
+        }
+        return subscriptionServiceClient.buyBook(bookId);
     }
 }
