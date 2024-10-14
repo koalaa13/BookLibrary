@@ -17,7 +17,7 @@ import com.example.feign.BankServiceClient;
 import com.example.feign.ModerationServiceClient;
 import com.example.repository.BookInfoRepository;
 import com.example.service.BookCreatorService;
-import dao.BookInfoPriceDao;
+import dao.BookInfoPriceUploaderDao;
 import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +60,7 @@ public class BookCreatorServiceImpl implements BookCreatorService {
                     if (found.isPublished()) {
                         throw new ChangePublishedException("Can't change price because book is already published");
                     }
-                    bankServiceClient.updatePrice(new BookInfoPriceDao(id, price));
+                    bankServiceClient.updatePrice(new BookInfoPriceUploaderDao(id, price, found.getUploader()));
                 },
                 () -> {
                     throw new NoSuchEntityException(BookInfo.class, id);

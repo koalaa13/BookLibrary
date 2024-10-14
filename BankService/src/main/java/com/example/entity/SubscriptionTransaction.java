@@ -27,7 +27,8 @@ public class SubscriptionTransaction {
 
     public static enum Status {
         PENDING,
-        PROCESSED
+        PROCESSED,
+        CANCELED
     }
 
     public String getId() {

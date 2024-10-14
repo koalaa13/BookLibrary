@@ -14,13 +14,15 @@ public class BookPrice {
     @Id
     private String bookId;
     private BigDecimal price;
+    private String uploader;
 
     public BookPrice() {
     }
 
-    public BookPrice(String bookId, BigDecimal price) {
+    public BookPrice(String bookId, BigDecimal price, String uploader) {
         this.bookId = bookId;
         this.price = price;
+        this.uploader = uploader;
     }
 
     public String getBookId() {
@@ -37,5 +39,13 @@ public class BookPrice {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public String getUploader() {
+        return uploader;
+    }
+
+    public void setUploader(String uploader) {
+        this.uploader = uploader;
     }
 }

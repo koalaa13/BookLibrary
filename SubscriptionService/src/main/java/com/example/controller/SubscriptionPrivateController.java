@@ -3,6 +3,7 @@ package com.example.controller;
 import java.util.List;
 
 import com.example.service.SubscriptionService;
+import dao.SubscriptionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,5 +24,10 @@ public class SubscriptionPrivateController {
     @PostMapping("/buy/{id}")
     public boolean buyBook(@PathVariable("id") String bookId) {
         return subscriptionService.createSubscription(ContextHelper.getCurrentUser(), List.of(bookId), true);
+    }
+
+    @PostMapping("/get/processing")
+    public List<SubscriptionDao> getSubscriptionsForProcessingTransaction(@RequestBody List<String> ids) {
+        return subscriptionService.getSubscriptions(ids);
     }
 }

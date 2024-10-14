@@ -3,6 +3,7 @@ package com.example.service.impl;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import com.example.entity.UserSubscription;
 import com.example.feign.BankServiceClient;
 import com.example.repository.UserSubscriptionRepository;
 import com.example.service.SubscriptionService;
+import dao.SubscriptionDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     public BigDecimal getSubscriptionPriceByBooks(List<String> bookIds) {
         return priceCalculator.calculateSubscriptionPrice(bankServiceClient.getPrices(bookIds));
+    }
+
+    @Override
+    public List<SubscriptionDao> getSubscriptions(List<String> ids) {
+        List<SubscriptionDao> res = new ArrayList<>();
+        userSubscriptionRepository.findAllById(ids).forEach(s -> {
+            res.add(new SubscriptionDao(s.getId(), s.getBookIds(), s.getPrice()));
+        });
+        return res;
     }
 
     @Transactional

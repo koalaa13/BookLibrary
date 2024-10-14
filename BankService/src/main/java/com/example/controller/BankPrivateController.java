@@ -6,6 +6,7 @@ import com.example.service.BookPriceService;
 import com.example.service.MoneyAccountService;
 import com.example.service.SubscriptionTransactionService;
 import dao.BookInfoPriceDao;
+import dao.BookInfoPriceUploaderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,8 +35,8 @@ public class BankPrivateController {
     }
 
     @PostMapping("/book/price/createOrUpdate")
-    public void createOrUpdateBookPrice(@RequestBody BookInfoPriceDao info) {
-        bookPriceService.createOrUpdate(info.bookId, info.price);
+    public void createOrUpdateBookPrice(@RequestBody BookInfoPriceUploaderDao info) {
+        bookPriceService.createOrUpdate(info.bookId, info.price, info.uploader);
     }
 
     @PostMapping("/book/prices")

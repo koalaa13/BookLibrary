@@ -20,8 +20,8 @@ public class BookPriceServiceImpl implements BookPriceService {
     private static final BigDecimal DEFAULT_PRICE = new BigDecimal("100.0");
 
     @Override
-    public void create(String bookId) {
-        bookPriceRepository.save(new BookPrice(bookId, DEFAULT_PRICE));
+    public void create(String bookId, String uploader) {
+        bookPriceRepository.save(new BookPrice(bookId, DEFAULT_PRICE, uploader));
     }
 
     @Transactional
@@ -39,10 +39,10 @@ public class BookPriceServiceImpl implements BookPriceService {
 
     @Transactional
     @Override
-    public void createOrUpdate(String bookId, BigDecimal price) {
+    public void createOrUpdate(String bookId, BigDecimal price, String uploader) {
         bookPriceRepository.findById(bookId).ifPresentOrElse(
                 found -> updatePrice(found, price),
-                () -> create(bookId)
+                () -> create(bookId, uploader)
         );
     }
 

@@ -5,10 +5,8 @@ import java.time.Instant;
 import com.example.entity.SubscriptionTransaction;
 import com.example.repository.SubscriptionTransactionRepository;
 import com.example.service.SubscriptionTransactionService;
-import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SubscriptionTransactionServiceImpl implements SubscriptionTransactionService {
@@ -23,14 +21,5 @@ public class SubscriptionTransactionServiceImpl implements SubscriptionTransacti
         transaction.setStatus(SubscriptionTransaction.Status.PENDING);
 
         transactionRepository.save(transaction);
-    }
-
-    @Transactional
-    @Override
-    public void finishTransaction(String subscriptionId) {
-        SubscriptionTransaction transaction = transactionRepository.findBySubscriptionId(subscriptionId)
-                .orElseThrow(() -> new NoSuchEntityException("No such transaction for subscription with id " +
-                        subscriptionId));
-        transactionRepository.finishTransaction(transaction.getId());
     }
 }

@@ -20,9 +20,18 @@ public interface SubscriptionTransactionRepository extends CrudRepository<Subscr
     @Query(
             value = "UPDATE " + SubscriptionTransaction.TABLE_NAME +
                     " SET status = 'PROCESSED'" +
-                    " WHERE id = :id AND status = 'PENDING'"
+                    " WHERE subscriptionId IN (:subscriptionIds) AND status = 'PENDING'"
     )
-    void finishTransaction(@Param("id") String transactionId);
+    void processTransactions(@Param("subscriptionIds") Iterable<String> subscriptionIds);
+
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query(
+            value = "UPDATE " + SubscriptionTransaction.TABLE_NAME +
+                    " SET status = 'CANCELED'" +
+                    " WHERE subscriptionId IN (:subscriptionIds) AND status = 'PENDING'"
+    )
+    void cancelTransactions(@Param("subscriptionIds") Iterable<String> subscriptionIds);
 
     @Query(
             nativeQuery = true,
