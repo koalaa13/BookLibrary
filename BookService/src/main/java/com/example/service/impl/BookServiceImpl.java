@@ -50,6 +50,9 @@ public class BookServiceImpl implements BookService {
     public void updateBookInfo(String id, BookInfoDao bookInfoDao) {
         BookInfo bookInfo = bookInfoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchEntityException(BookInfo.class, id));
+        if (bookInfo.isModerationSuccess()) {
+            throw new ChangeInModerationStatusException("Can't update book info because it's already moderated");
+        }
         if (bookInfo.isInModeration()) {
             throw new ChangeInModerationStatusException("Can't update book info because it sent to moderation");
         }

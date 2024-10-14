@@ -25,6 +25,10 @@ public class BookModerationServiceImpl implements BookModerationService {
         if (bookInfo.isModerationSuccess()) {
             throw new BadRequestSendToModerationException("Moderation is already successful");
         }
+        if (bookInfo.getPrice() == null) {
+            throw new BadRequestSendToModerationException("Can't send to moderation because should specify a price");
+        }
+
         BookInfoModerationDao dao = new BookInfoModerationDao();
         dao.author = bookInfo.getAuthor();
         dao.shortDescription = bookInfo.getShortDescription();
@@ -32,7 +36,24 @@ public class BookModerationServiceImpl implements BookModerationService {
         dao.downloadUrl = buildDownloadLink(bookInfo.getFileUUID());
         dao.bookId = bookInfoId;
 
+        checkAllFieldExistence(dao);
+
         return dao;
+    }
+
+    private void checkAllFieldExistence(BookInfoModerationDao dao) {
+        if (dao.downloadUrl == null) {
+            throw new BadRequestSendToModerationException("Can't send to moderation because there is no text file");
+        }
+        if (dao.author == null) {
+            throw new BadRequestSendToModerationException("Can't send to moderation because there is no author");
+        }
+        if (dao.title == null) {
+            throw new BadRequestSendToModerationException("Can't send to moderation because there is no title");
+        }
+        if (dao.shortDescription == null) {
+            throw new BadRequestSendToModerationException("Can't send to moderation because there is no short description");
+        }
     }
 
     private String buildDownloadLink(String fileUUID) {

@@ -30,7 +30,6 @@ public class SendModerationServiceImpl implements SendModerationService {
     @Transactional
     public void sendBookOnModeration(String bookId) {
         BookInfoModerationDao dao = bookModerationService.getBookInfoForModeration(bookId);
-        checkAllFieldExistence(dao);
 
         bookInfoRepository.updateInModeration(bookId, true);
 
@@ -38,21 +37,6 @@ public class SendModerationServiceImpl implements SendModerationService {
             bookInfoModerationDaoKafkaTemplate.send(BOOK_SEND_MODERATION_TOPIC, dao).get(2, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new InternalServerSendToModerationException("Error happened when sending book on moderation", e);
-        }
-    }
-
-    private void checkAllFieldExistence(BookInfoModerationDao dao) {
-        if (dao.downloadUrl == null) {
-            throw new BadRequestSendToModerationException("Can't send to moderation because there is no text file");
-        }
-        if (dao.author == null) {
-            throw new BadRequestSendToModerationException("Can't send to moderation because there is no author");
-        }
-        if (dao.title == null) {
-            throw new BadRequestSendToModerationException("Can't send to moderation because there is no title");
-        }
-        if (dao.shortDescription == null) {
-            throw new BadRequestSendToModerationException("Can't send to moderation because there is no short description");
         }
     }
 }
