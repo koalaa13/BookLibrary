@@ -16,7 +16,7 @@ import com.example.exception.ChangePublishedException;
 import com.example.feign.BankServiceClient;
 import com.example.feign.ModerationServiceClient;
 import com.example.repository.BookInfoRepository;
-import com.example.service.BookService;
+import com.example.service.BookCreatorService;
 import dao.BookInfoPriceDao;
 import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 import util.StringUtil;
 
 @Service
-public class BookServiceImpl implements BookService {
+public class BookCreatorServiceImpl implements BookCreatorService {
     @Autowired
     private BookInfoRepository bookInfoRepository;
     @Autowired

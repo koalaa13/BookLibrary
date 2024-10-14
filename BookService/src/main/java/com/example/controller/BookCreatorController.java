@@ -7,7 +7,7 @@ import com.example.dao.BookInfoDao;
 import com.example.dao.BookInfoForCreatorDao;
 import com.example.dao.ModerationResultResponse;
 import com.example.feign.FileServiceClient;
-import com.example.service.BookService;
+import com.example.service.BookCreatorService;
 import com.example.service.SendModerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ import util.ContextHelper;
 @RequestMapping("/api/v1")
 public class BookCreatorController {
     @Autowired
-    private BookService bookService;
+    private BookCreatorService bookCreatorService;
     @Autowired
     private SendModerationService sendModerationService;
     @Autowired
@@ -34,41 +34,41 @@ public class BookCreatorController {
     @PostMapping("/add")
     public String addBook(@RequestBody BookInfoDao bookInfoDao) {
         String uploader = ContextHelper.getCurrentUser();
-        return bookService.createBookInfo(bookInfoDao, uploader).getId();
+        return bookCreatorService.createBookInfo(bookInfoDao, uploader).getId();
     }
 
     @PatchMapping("/update/file/{id}")
     public void addBookFile(@PathVariable("id") String id, @RequestParam(name = "file") MultipartFile file) {
         ContextHelper.checkEntityAccess(
-                bookService.getBookInfoUploader(id),
+                bookCreatorService.getBookInfoUploader(id),
                 "Have no permissions to change another user's book"
         );
         String fileUUID = fileServiceClient.uploadFile(file).getUUID();
-        bookService.updateBookFile(id, fileUUID);
+        bookCreatorService.updateBookFile(id, fileUUID);
     }
 
     @PatchMapping("/update/info/{id}")
     public void updateBook(@PathVariable("id") String id, @RequestBody BookInfoDao bookInfoDao) {
         ContextHelper.checkEntityAccess(
-                bookService.getBookInfoUploader(id),
+                bookCreatorService.getBookInfoUploader(id),
                 "Have no permissions to change another user's book"
         );
-        bookService.updateBookInfo(id, bookInfoDao);
+        bookCreatorService.updateBookInfo(id, bookInfoDao);
     }
 
     @PatchMapping("/update/price/{id}")
     public void updateBookPrice(@PathVariable("id") String id, @RequestBody BigDecimal price) {
         ContextHelper.checkEntityAccess(
-                bookService.getBookInfoUploader(id),
+                bookCreatorService.getBookInfoUploader(id),
                 "Have no permissions to change another user's book"
         );
-        bookService.updateBookPrice(id, price);
+        bookCreatorService.updateBookPrice(id, price);
     }
 
     @PostMapping("/sendToModeration/{id}")
     public void sendToModeration(@PathVariable("id") String id) {
         ContextHelper.checkEntityAccess(
-                bookService.getBookInfoUploader(id),
+                bookCreatorService.getBookInfoUploader(id),
                 "Have no permissions to send to moderation another user's book"
         );
         sendModerationService.sendBookOnModeration(id);
@@ -80,15 +80,15 @@ public class BookCreatorController {
                 userId,
                 "Have no permissions to get another user's book"
         );
-        return bookService.getAllBooksInfoByUploader(userId);
+        return bookCreatorService.getAllBooksInfoByUploader(userId);
     }
 
     @GetMapping("/moderation/result/{id}")
     public ModerationResultResponse getModerationResult(@PathVariable("id") String id) {
         ContextHelper.checkEntityAccess(
-                bookService.getBookInfoUploader(id),
+                bookCreatorService.getBookInfoUploader(id),
                 "Have no permissions to get moderation result of another user's book"
         );
-        return bookService.buildModerationResultResponse(id);
+        return bookCreatorService.buildModerationResultResponse(id);
     }
 }

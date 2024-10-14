@@ -2,33 +2,26 @@ package com.example.controller;
 
 import java.util.List;
 
-import com.example.feign.SubscriptionServiceClient;
-import com.example.service.BookReaderService;
+import com.example.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import util.ContextHelper;
 
 @RestController
-@RequestMapping("/api/v1")
-public class BookReaderController {
+public class SubscriptionPrivateController {
     @Autowired
-    private SubscriptionServiceClient subscriptionServiceClient;
-    @Autowired
-    private BookReaderService bookReaderService;
+    private SubscriptionService subscriptionService;
 
     @PostMapping("/buy")
     public boolean buySubscription(@RequestBody List<String> bookIds) {
-        if (!bookReaderService.isAllBooksPublished(bookIds)) {
-            return false;
-        }
-        return subscriptionServiceClient.buySubscription(bookIds);
+        return subscriptionService.createSubscription(ContextHelper.getCurrentUser(), bookIds, false);
     }
 
     @PostMapping("/buy/{id}")
     public boolean buyBook(@PathVariable("id") String bookId) {
-        return buySubscription(List.of(bookId));
+        return subscriptionService.createSubscription(ContextHelper.getCurrentUser(), List.of(bookId), true);
     }
 }

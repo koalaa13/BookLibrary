@@ -1,6 +1,5 @@
 package com.example.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.service.BookPriceService;
@@ -8,7 +7,6 @@ import com.example.service.MoneyAccountService;
 import com.example.service.SubscriptionTransactionService;
 import dao.BookInfoPriceDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,7 +34,7 @@ public class BankPrivateController {
     }
 
     @PostMapping("/book/price/createOrUpdate")
-    public void updateBookPrice(@RequestBody BookInfoPriceDao info) {
+    public void createOrUpdateBookPrice(@RequestBody BookInfoPriceDao info) {
         bookPriceService.createOrUpdate(info.bookId, info.price);
     }
 
