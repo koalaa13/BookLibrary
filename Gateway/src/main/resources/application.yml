@@ -12,6 +12,13 @@ spring:
         ssl:
           useInsecureTrustManager: true
       routes:
+        - id: subscription
+          uri: http://localhost:8081
+          predicates:
+            - Path=/subscription/**
+          filters:
+            - RewritePath=/subscription/?(?<segment>.*), /api/v1/$\{segment}
+            - AuthorizationFilter
         - id: bookstore
           uri: http://localhost:8090
           predicates:
