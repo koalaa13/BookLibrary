@@ -25,9 +25,11 @@ public interface SubscriptionTransactionRepository extends CrudRepository<Subscr
     void finishTransaction(@Param("id") String transactionId);
 
     @Query(
-            value = "SELECT * FROM " + SubscriptionTransaction.TABLE_NAME +
+            nativeQuery = true,
+            value = "SELECT * " +
+                    " FROM " + SubscriptionTransaction.TABLE_NAME +
                     " WHERE status = 'PENDING'" +
-                    " LIMIT :limit"
+                    " LIMIT ?"
     )
-    List<SubscriptionTransaction> findPending(@Param("limit") int limit);
+    List<SubscriptionTransaction> findPending(int limit);
 }

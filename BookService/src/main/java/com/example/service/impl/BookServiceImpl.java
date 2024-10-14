@@ -1,5 +1,6 @@
 package com.example.service.impl;
 
+import java.math.BigInteger;
 import java.time.Instant;
 import java.util.List;
 
@@ -61,6 +62,9 @@ public class BookServiceImpl implements BookService {
         }
         if (!StringUtil.isEmpty(bookInfoDao.shortDescription)) {
             bookInfo.setShortDescription(bookInfoDao.shortDescription);
+        }
+        if (bookInfoDao.price != null && bookInfoDao.price.compareTo(BigInteger.ZERO) > 0) {
+            bookInfo.setPrice(bookInfoDao.price);
         }
         bookInfoRepository.save(bookInfo);
     }
