@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
-import com.example.dao.BookInfoDao;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +32,7 @@ public class BookInfo {
     private boolean inModeration = false;
     private String moderationResultId;
     private boolean moderationSuccess = false;
-    private BigDecimal price;
+    private boolean published = false;
 
     public BookInfo() {
     }
@@ -43,8 +42,7 @@ public class BookInfo {
             String author,
             String title,
             String uploader,
-            Instant createdAt,
-            BigDecimal price
+            Instant createdAt
     ) {
         this.shortDescription = shortDescription;
         this.author = author;
@@ -150,11 +148,11 @@ public class BookInfo {
         this.createdAt = createdAt;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public boolean isPublished() {
+        return published;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 }

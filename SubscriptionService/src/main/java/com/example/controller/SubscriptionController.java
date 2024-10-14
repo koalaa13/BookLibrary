@@ -24,6 +24,8 @@ public class SubscriptionController {
         return subscriptionService.getSubscriptionPriceByBooks(bookIds);
     }
 
+    // TODO add this method to private and go to it from BookService
+    // TODO to prevent buying unpublished books
     @PostMapping("/buy")
     public boolean buySubscription(@RequestBody List<String> bookIds) {
         return subscriptionService.createSubscription(ContextHelper.getCurrentUser(), bookIds, false);

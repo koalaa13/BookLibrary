@@ -25,9 +25,6 @@ public class BookModerationServiceImpl implements BookModerationService {
         if (bookInfo.isModerationSuccess()) {
             throw new BadRequestSendToModerationException("Moderation is already successful");
         }
-        if (bookInfo.getPrice() == null) {
-            throw new BadRequestSendToModerationException("Can't send to moderation because should specify a price");
-        }
 
         BookInfoModerationDao dao = new BookInfoModerationDao();
         dao.author = bookInfo.getAuthor();

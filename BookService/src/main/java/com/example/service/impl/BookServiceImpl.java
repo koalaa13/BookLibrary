@@ -3,16 +3,21 @@ package com.example.service.impl;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.dao.BookInfoDao;
+import com.example.dao.BookInfoForCreatorDao;
 import com.example.dao.ModerationResultMessageResponse;
 import com.example.dao.ModerationResultResponse;
 import com.example.dao.ModerationResultWithErrorsResponse;
 import com.example.entity.BookInfo;
 import com.example.exception.ChangeInModerationStatusException;
+import com.example.exception.ChangePublishedException;
+import com.example.feign.BankServiceClient;
 import com.example.feign.ModerationServiceClient;
 import com.example.repository.BookInfoRepository;
 import com.example.service.BookService;
+import dao.BookInfoPriceDao;
 import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +29,8 @@ public class BookServiceImpl implements BookService {
     private BookInfoRepository bookInfoRepository;
     @Autowired
     private ModerationServiceClient moderationServiceClient;
+    @Autowired
+    private BankServiceClient bankServiceClient;
 
     @Override
     public BookInfo createBookInfo(BookInfoDao bookInfoDao, String uploader) {
@@ -33,8 +40,7 @@ public class BookServiceImpl implements BookService {
                         bookInfoDao.author,
                         bookInfoDao.title,
                         uploader,
-                        Instant.now(),
-                        bookInfoDao.price
+                        Instant.now()
                 )
         );
     }
@@ -44,6 +50,21 @@ public class BookServiceImpl implements BookService {
         return bookInfoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchEntityException(BookInfo.class, id))
                 .getUploader();
+    }
+
+    @Override
+    public void updateBookPrice(String id, BigDecimal price) {
+        bookInfoRepository.findById(id).ifPresentOrElse(
+                found -> {
+                    if (found.isPublished()) {
+                        throw new ChangePublishedException("Can't change price because book is already published");
+                    }
+                    bankServiceClient.updatePrice(new BookInfoPriceDao(id, price));
+                },
+                () -> {
+                    throw new NoSuchEntityException(BookInfo.class, id);
+                }
+        );
     }
 
     @Override
@@ -66,9 +87,6 @@ public class BookServiceImpl implements BookService {
         if (!StringUtil.isEmpty(bookInfoDao.shortDescription)) {
             bookInfo.setShortDescription(bookInfoDao.shortDescription);
         }
-        if (bookInfoDao.price != null && bookInfoDao.price.compareTo(BigDecimal.ZERO) > 0) {
-            bookInfo.setPrice(bookInfoDao.price);
-        }
         bookInfoRepository.save(bookInfo);
     }
 
@@ -76,6 +94,9 @@ public class BookServiceImpl implements BookService {
     public void updateBookFile(String id, String fileUUID) {
         BookInfo bookInfo = bookInfoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchEntityException(BookInfo.class, id));
+        if (bookInfo.isModerationSuccess()) {
+            throw new ChangeInModerationStatusException("Can't update book info because it's already moderated");
+        }
         if (bookInfo.isInModeration()) {
             throw new ChangeInModerationStatusException("Can't update book info because it sent to moderation");
         }
@@ -87,8 +108,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookInfo> getAllBooksInfoByUploader(String uploader) {
-        return bookInfoRepository.findAllByUploader(uploader);
+    public List<BookInfoForCreatorDao> getAllBooksInfoByUploader(String uploader) {
+        List<BookInfo> books = bookInfoRepository.findAllByUploader(uploader);
+        List<String> bookIds = books.stream().map(BookInfo::getId).toList();
+        var prices = bankServiceClient.getPrices(bookIds)
+                .stream()
+                .collect(Collectors.toMap(bp -> bp.bookId, bp -> bp.price));
+        return books.stream()
+                .map(b -> new BookInfoForCreatorDao(
+                                prices.get(b.getId()),
+                                b.isInModeration(),
+                                b.isModerationSuccess(),
+                                b.getShortDescription(),
+                                b.getAuthor(),
+                                b.getTitle()
+                        )
+                )
+                .toList();
     }
 
     @Override

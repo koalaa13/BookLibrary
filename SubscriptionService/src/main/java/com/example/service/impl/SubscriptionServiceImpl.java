@@ -9,7 +9,6 @@ import java.util.UUID;
 import com.example.component.PriceCalculator;
 import com.example.entity.UserSubscription;
 import com.example.feign.BankServiceClient;
-import com.example.feign.BookInfoServiceClient;
 import com.example.repository.UserSubscriptionRepository;
 import com.example.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +20,13 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Autowired
     private PriceCalculator priceCalculator;
     @Autowired
-    private BookInfoServiceClient bookInfoServiceClient;
-    @Autowired
     private BankServiceClient bankServiceClient;
     @Autowired
     private UserSubscriptionRepository userSubscriptionRepository;
 
     @Override
     public BigDecimal getSubscriptionPriceByBooks(List<String> bookIds) {
-        return priceCalculator.calculateSubscriptionPrice(bookInfoServiceClient.getPrices(bookIds));
+        return priceCalculator.calculateSubscriptionPrice(bankServiceClient.getPrices(bookIds));
     }
 
     @Transactional
@@ -37,7 +34,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public boolean createSubscription(String userId, List<String> bookIds, boolean infinite) {
         Instant now = Instant.now();
         Instant expireAt = infinite ?
-                Instant.MAX :
+                Instant.ofEpochSecond(7282894156L) : // some date in far-far future
                 now.plus(30, ChronoUnit.DAYS);
 
         String id = UUID.randomUUID().toString();

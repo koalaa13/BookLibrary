@@ -1,8 +1,10 @@
 package com.example.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.dao.BookInfoDao;
+import com.example.dao.BookInfoForCreatorDao;
 import com.example.dao.ModerationResultResponse;
 import com.example.feign.FileServiceClient;
 import com.example.service.BookService;
@@ -29,7 +31,6 @@ public class BookCreatorController {
     @Autowired
     private FileServiceClient fileServiceClient;
 
-    // TODO check file extension mb
     @PostMapping("/add")
     public String addBook(@RequestBody BookInfoDao bookInfoDao) {
         String uploader = ContextHelper.getCurrentUser();
@@ -55,6 +56,15 @@ public class BookCreatorController {
         bookService.updateBookInfo(id, bookInfoDao);
     }
 
+    @PatchMapping("/update/price/{id}")
+    public void updateBookPrice(@PathVariable("id") String id, @RequestBody BigDecimal price) {
+        ContextHelper.checkEntityAccess(
+                bookService.getBookInfoUploader(id),
+                "Have no permissions to change another user's book"
+        );
+        bookService.updateBookPrice(id, price);
+    }
+
     @PostMapping("/sendToModeration/{id}")
     public void sendToModeration(@PathVariable("id") String id) {
         ContextHelper.checkEntityAccess(
@@ -65,22 +75,12 @@ public class BookCreatorController {
     }
 
     @GetMapping("/uploadedBy/{userId}")
-    public List<BookInfoDao> getAllBooksUploadedBy(@PathVariable("userId") String userId) {
+    public List<BookInfoForCreatorDao> getAllBooksUploadedBy(@PathVariable("userId") String userId) {
         ContextHelper.checkEntityAccess(
                 userId,
                 "Have no permissions to get another user's book"
         );
-        return bookService.getAllBooksInfoByUploader(userId)
-                .stream()
-                .map(bookInfo -> new BookInfoDao(
-                                bookInfo.getShortDescription(),
-                                bookInfo.getAuthor(),
-                                bookInfo.getTitle(),
-                                bookInfo.isInModeration(),
-                                bookInfo.getPrice()
-                        )
-                )
-                .toList();
+        return bookService.getAllBooksInfoByUploader(userId);
     }
 
     @GetMapping("/moderation/result/{id}")
