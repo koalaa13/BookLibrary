@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(value = "BankService", url = "http://localhost:8093")
 public interface BankServiceClient {
-    @PostMapping("/create")
+    @PostMapping("/account/create")
     boolean createAccount(@Param("userId") String userId);
 }

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
 
 import com.example.component.PriceCalculator;
 import com.example.entity.UserSubscription;
@@ -37,21 +38,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Instant now = Instant.now();
         Instant expireAt = now.plus(1, ChronoUnit.MONTHS);
 
+        String id = UUID.randomUUID().toString();
+
         UserSubscription userSubscription = new UserSubscription();
         userSubscription.setUserId(userId);
         userSubscription.setCreatedAt(now);
         userSubscription.setExpireAt(expireAt);
         userSubscription.setBookIds(bookIds);
+        userSubscription.setId(id);
 
         BigInteger price = getSubscriptionPriceByBooks(bookIds);
         userSubscription.setPrice(price);
 
-        boolean moneySpent = bankServiceClient.addMoney(userId, price.negate());
-        if (!moneySpent) {
+        boolean transactionCreated = bankServiceClient.createTransaction(id);
+        if (!transactionCreated) {
             return false;
         }
-        // TODO if app was killed here, then money was taken from reader, but subscription was not created :(
-        // TODO book creators should get paid here too
 
         userSubscriptionRepository.save(userSubscription);
         return true;
