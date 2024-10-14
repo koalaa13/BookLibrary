@@ -1,8 +1,16 @@
 package dao;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 public class BookInfoPriceDao {
     public String bookId;
-    public BigInteger price;
+    public BigDecimal price;
+
+    public BookInfoPriceDao() {
+    }
+
+    public BookInfoPriceDao(String bookId, BigDecimal price) {
+        this.bookId = bookId;
+        this.price = price;
+    }
 }

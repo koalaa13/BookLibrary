@@ -1,6 +1,6 @@
 package com.example.entity;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,12 +19,12 @@ public class MoneyAccount {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String userId;
-    private BigInteger balance;
+    private BigDecimal balance;
 
     public MoneyAccount() {
     }
 
-    public MoneyAccount(String userId, BigInteger balance) {
+    public MoneyAccount(String userId, BigDecimal balance) {
         this.userId = userId;
         this.balance = balance;
     }
@@ -45,11 +45,11 @@ public class MoneyAccount {
         this.userId = userId;
     }
 
-    public BigInteger getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(BigInteger balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 }

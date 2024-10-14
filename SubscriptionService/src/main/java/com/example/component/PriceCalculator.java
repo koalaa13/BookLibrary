@@ -1,10 +1,10 @@
 package com.example.component;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.List;
 
 import dao.BookInfoPriceDao;
 
 public interface PriceCalculator {
-    BigInteger calculateSubscriptionPrice(List<BookInfoPriceDao> prices);
+    BigDecimal calculateSubscriptionPrice(List<BookInfoPriceDao> prices);
 }

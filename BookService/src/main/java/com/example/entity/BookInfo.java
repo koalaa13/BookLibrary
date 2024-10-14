@@ -1,6 +1,6 @@
 package com.example.entity;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -33,7 +33,7 @@ public class BookInfo {
     private boolean inModeration = false;
     private String moderationResultId;
     private boolean moderationSuccess = false;
-    private BigInteger price;
+    private BigDecimal price;
 
     public BookInfo() {
     }
@@ -44,7 +44,7 @@ public class BookInfo {
             String title,
             String uploader,
             Instant createdAt,
-            BigInteger price
+            BigDecimal price
     ) {
         this.shortDescription = shortDescription;
         this.author = author;
@@ -150,11 +150,11 @@ public class BookInfo {
         this.createdAt = createdAt;
     }
 
-    public BigInteger getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(BigInteger price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 }

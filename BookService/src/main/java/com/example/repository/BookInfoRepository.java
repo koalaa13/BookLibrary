@@ -41,11 +41,4 @@ public interface BookInfoRepository extends CrudRepository<BookInfo, String> {
             @Param("moderationResultId") String moderationResultId,
             @Param("moderationSuccess") boolean moderationSuccess
     );
-
-    @Query(
-            value = "SELECT id AS bookId, price AS price" +
-                    " FROM " + BookInfo.TABLE_NAME +
-                    " WHERE id IN (:ids)"
-    )
-    List<BookInfoPriceDao> getPrices(@Param("ids") List<String> ids);
 }

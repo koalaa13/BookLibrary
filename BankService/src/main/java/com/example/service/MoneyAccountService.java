@@ -1,8 +1,8 @@
 package com.example.service;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 
 public interface MoneyAccountService {
     void createAccount(String userId);
-    void addMoney(String userId, BigInteger amount);
+    void addMoney(String userId, BigDecimal amount);
 }

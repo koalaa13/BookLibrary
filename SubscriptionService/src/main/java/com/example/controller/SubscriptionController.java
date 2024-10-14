@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.example.service.SubscriptionService;
@@ -20,7 +20,7 @@ public class SubscriptionController {
     private SubscriptionService subscriptionService;
 
     @GetMapping("/price")
-    public BigInteger getSubscriptionPriceByBooks(@RequestBody List<String> bookIds) {
+    public BigDecimal getSubscriptionPriceByBooks(@RequestBody List<String> bookIds) {
         return subscriptionService.getSubscriptionPriceByBooks(bookIds);
     }
 

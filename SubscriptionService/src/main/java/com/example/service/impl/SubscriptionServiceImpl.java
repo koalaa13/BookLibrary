@@ -1,6 +1,6 @@
 package com.example.service.impl;
 
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -28,7 +28,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private UserSubscriptionRepository userSubscriptionRepository;
 
     @Override
-    public BigInteger getSubscriptionPriceByBooks(List<String> bookIds) {
+    public BigDecimal getSubscriptionPriceByBooks(List<String> bookIds) {
         return priceCalculator.calculateSubscriptionPrice(bookInfoServiceClient.getPrices(bookIds));
     }
 
@@ -47,7 +47,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         userSubscription.setBookIds(bookIds);
         userSubscription.setId(id);
 
-        BigInteger price = getSubscriptionPriceByBooks(bookIds);
+        BigDecimal price = getSubscriptionPriceByBooks(bookIds);
         userSubscription.setPrice(price);
 
         boolean transactionCreated = bankServiceClient.createTransaction(id);
