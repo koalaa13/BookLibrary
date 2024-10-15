@@ -16,4 +16,5 @@ public interface BookCreatorService {
     List<BookInfoForCreatorDao> getAllBooksInfoByUploader(String uploader);
     ModerationResultResponse buildModerationResultResponse(String id);
     void updateBookPrice(String id, BigDecimal price);
+    void publishBook(String id);
 }

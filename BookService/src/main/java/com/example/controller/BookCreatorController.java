@@ -65,6 +65,15 @@ public class BookCreatorController {
         bookCreatorService.updateBookPrice(id, price);
     }
 
+    @PatchMapping("/publish/{id}")
+    public void publishBook(@PathVariable("id") String id) {
+        ContextHelper.checkEntityAccess(
+                bookCreatorService.getBookInfoUploader(id),
+                "Have no permissions to publish another user's book"
+        );
+        bookCreatorService.publishBook(id);
+    }
+
     @PostMapping("/sendToModeration/{id}")
     public void sendToModeration(@PathVariable("id") String id) {
         ContextHelper.checkEntityAccess(

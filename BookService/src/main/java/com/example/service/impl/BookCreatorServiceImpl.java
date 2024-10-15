@@ -13,6 +13,7 @@ import com.example.dao.ModerationResultWithErrorsResponse;
 import com.example.entity.BookInfo;
 import com.example.exception.ChangeInModerationStatusException;
 import com.example.exception.ChangePublishedException;
+import com.example.exception.PublicationException;
 import com.example.feign.BankServiceClient;
 import com.example.feign.ModerationServiceClient;
 import com.example.repository.BookInfoRepository;
@@ -51,6 +52,23 @@ public class BookCreatorServiceImpl implements BookCreatorService {
         return bookInfoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchEntityException(BookInfo.class, id))
                 .getUploader();
+    }
+
+    @Override
+    public void publishBook(String id) {
+        BookInfo book = bookInfoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchEntityException(BookInfo.class, id));
+        if (book.isPublished()) {
+            throw new PublicationException("Already published");
+        }
+        if (book.isInModeration()) {
+            throw new PublicationException("Moderation is not finished");
+        }
+        if (!book.isModerationSuccess()) {
+            throw new PublicationException("Moderation is failed");
+        }
+        book.setPublished(true);
+        bookInfoRepository.save(book);
     }
 
     @Override

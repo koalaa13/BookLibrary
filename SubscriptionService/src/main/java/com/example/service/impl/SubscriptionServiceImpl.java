@@ -35,7 +35,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public List<SubscriptionDao> getSubscriptions(List<String> ids) {
         List<SubscriptionDao> res = new ArrayList<>();
         userSubscriptionRepository.findAllById(ids).forEach(s -> {
-            res.add(new SubscriptionDao(s.getId(), s.getBookIds(), s.getPrice()));
+            res.add(new SubscriptionDao(s.getId(), s.getBookIds(), s.getPrice(), s.getUserId()));
         });
         return res;
     }
