@@ -4,12 +4,16 @@ import java.util.List;
 
 import com.example.feign.SubscriptionServiceClient;
 import com.example.service.BookReaderService;
+import dao.BookInfoModerationDao;
+import dao.BookInfoReaderDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import util.ContextHelper;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,7 +28,7 @@ public class BookReaderController {
         if (!bookReaderService.isAllBooksPublished(bookIds)) {
             return false;
         }
-        return subscriptionServiceClient.buySubscription(bookIds);
+        return subscriptionServiceClient.buySubscription(ContextHelper.getCurrentUser(), bookIds);
     }
 
     @PostMapping("/buy/{id}")
@@ -32,6 +36,15 @@ public class BookReaderController {
         if (!bookReaderService.isAllBooksPublished(List.of(bookId))) {
             return false;
         }
-        return subscriptionServiceClient.buyBook(bookId);
+        return subscriptionServiceClient.buyBook(ContextHelper.getCurrentUser(), bookId);
+    }
+
+    @GetMapping("/bought/{id}")
+    public List<BookInfoReaderDao> getBoughtBooks(@PathVariable("id") String userId) {
+        ContextHelper.checkEntityAccess(
+                userId,
+                "Have no permissions to get another user's bought books"
+        );
+        return bookReaderService.getBoughtBooks(userId);
     }
 }

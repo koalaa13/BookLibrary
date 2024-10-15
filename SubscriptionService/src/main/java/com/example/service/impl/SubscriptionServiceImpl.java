@@ -40,6 +40,15 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         return res;
     }
 
+    @Override
+    public List<String> getBooksByUser(String userId) {
+        return userSubscriptionRepository.getNonExpiredSubscriptionsByUser(userId)
+                .stream()
+                .flatMap(s -> s.getBookIds().stream())
+                .distinct()
+                .toList();
+    }
+
     @Transactional
     @Override
     public boolean createSubscription(String userId, List<String> bookIds, boolean infinite) {

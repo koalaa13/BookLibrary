@@ -8,7 +8,8 @@ import dao.BookInfoModerationDao;
 import exception.NoSuchEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import util.HttpConstants;
+
+import static util.HttpUtil.buildDownloadLink;
 
 @Service
 public class BookModerationServiceImpl implements BookModerationService {
@@ -30,7 +31,7 @@ public class BookModerationServiceImpl implements BookModerationService {
         dao.author = bookInfo.getAuthor();
         dao.shortDescription = bookInfo.getShortDescription();
         dao.title = bookInfo.getTitle();
-        dao.downloadUrl = buildDownloadLink(bookInfo.getFileUUID());
+        dao.downloadUrl = buildDownloadLink(bookInfo.getFileUUID(), true);
         dao.bookId = bookInfoId;
 
         checkAllFieldExistence(dao);
@@ -51,11 +52,5 @@ public class BookModerationServiceImpl implements BookModerationService {
         if (dao.shortDescription == null) {
             throw new BadRequestSendToModerationException("Can't send to moderation because there is no short description");
         }
-    }
-
-    private String buildDownloadLink(String fileUUID) {
-        return fileUUID == null ?
-                null :
-                "http://" + HttpConstants.APP_DOMAIN + "/files/download/" + fileUUID;
     }
 }

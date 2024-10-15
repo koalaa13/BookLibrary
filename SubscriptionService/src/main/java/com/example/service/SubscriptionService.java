@@ -9,4 +9,5 @@ public interface SubscriptionService {
     BigDecimal getSubscriptionPriceByBooks(List<String> bookIds);
     boolean createSubscription(String userId, List<String> bookIds, boolean infinite);
     List<SubscriptionDao> getSubscriptions(List<String> ids);
+    List<String> getBooksByUser(String userId);
 }
