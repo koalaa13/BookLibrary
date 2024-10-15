@@ -2,9 +2,10 @@ package com.example.controller;
 
 import java.util.List;
 
+import com.example.dao.BookInfoDao;
+import com.example.dao.SearchDao;
 import com.example.feign.SubscriptionServiceClient;
 import com.example.service.BookReaderService;
-import dao.BookInfoModerationDao;
 import dao.BookInfoReaderDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,5 +47,14 @@ public class BookReaderController {
                 "Have no permissions to get another user's bought books"
         );
         return bookReaderService.getBoughtBooks(userId);
+    }
+
+    @GetMapping("/search")
+    public List<BookInfoDao> searchBooks(@RequestBody SearchDao searchDao) {
+        return bookReaderService.getBooks(
+                searchDao.state,
+                searchDao.offset,
+                searchDao.limit
+        );
     }
 }
