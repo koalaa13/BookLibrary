@@ -11,6 +11,6 @@ public class TitleFilterCond extends FilterCond {
 
     @Override
     public String buildSqlCond() {
-        return "title LIKE '% + " + value + "%'";
+        return "title LIKE '%" + value + "%'";
     }
 }
