@@ -3,9 +3,11 @@ auth:
     secret: 7f9fb1eb85763d9919dea2d3092bfff2229d87cca78f62bb9aaf35328880d410
 
 server:
-  port: 8091
+  port: ${SPRING_SERVER_PORT}
 
 spring:
+  application:
+    name: BankService
   cloud:
     gateway:
       httpclient:

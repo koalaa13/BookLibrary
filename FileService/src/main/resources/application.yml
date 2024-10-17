@@ -1,8 +1,9 @@
-# TODO take it from env variables
 server:
-  port: 8082
+  port: ${SPRING_SERVER_PORT}
 
 spring:
+  application:
+    name: FileService
   servlet:
     multipart:
       max-file-size: 10MB

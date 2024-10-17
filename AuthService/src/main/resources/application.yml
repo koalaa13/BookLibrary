@@ -1,17 +1,18 @@
-# TODO use values from env variables here
 auth:
   jwt:
     secret: 7f9fb1eb85763d9919dea2d3092bfff2229d87cca78f62bb9aaf35328880d410
 
+server:
+  port: ${SPRING_SERVER_PORT}
+
 spring:
-  datasource:
-    username: postgres
-    password: mysecretpassword
-    url: jdbc:postgresql://localhost:5432/postgres
+  application:
+    name: AuthService
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: update
+  datasource:
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}

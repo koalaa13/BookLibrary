@@ -1,15 +1,14 @@
 server:
-  port: 8092
+  port: ${SPRING_SERVER_PORT}
 
 spring:
-  datasource:
-    username: postgres
-    password: mysecretpassword
-    url: jdbc:postgresql://localhost:5432/postgres
+  application:
+    name: ModerationService
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    properties.hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate.ddl-auto: update
+  datasource:
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
