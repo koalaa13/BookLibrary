@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+  labels:
+    app: auth-service
+spec:
+  selector:
+    tier: auth-service
+  ports:
+    - protocol: TCP
+      name: auth-service-metrics
+      port: 80
+      targetPort: {{ .Values.port }}
+  type: ClusterIP

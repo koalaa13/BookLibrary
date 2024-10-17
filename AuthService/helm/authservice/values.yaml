@@ -1,0 +1,7 @@
+port: 8080
+replicaCount: 3
+
+postgresql:
+  auth:
+    database: app
+    postgresPassword: changeme
