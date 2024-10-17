@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway-deployment
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      tier: gateway
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        tier: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: koalaa13/gateway
+          imagePullPolicy: "Always"
+          env:
+            - name: SPRING_SERVER_PORT
+              value: '{{ .Values.port }}'
+          ports:
+            - name: web
+              containerPort: {{ .Values.port }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.port }}
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.port }}
+              scheme: HTTP
+            initialDelaySeconds: 20
+            periodSeconds: 60
+            successThreshold: 1
+            failureThreshold: 3
+            timeoutSeconds: 3

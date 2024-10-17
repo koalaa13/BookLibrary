@@ -7,7 +7,7 @@ server:
 
 spring:
   application:
-    name: BankService
+    name: Gateway
   cloud:
     gateway:
       httpclient:
