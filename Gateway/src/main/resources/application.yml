@@ -54,12 +54,14 @@ spring:
             - Path=/registration/moderator
           filters:
             - RewritePath=/registration/moderator, /auth/moderator
+            - AuthorizationFilter
         - id: adminRegistration
           uri: http://localhost:8080
           predicates:
             - Path=/registration/admin
           filters:
             - RewritePath=/registration/admin, /auth/admin
+            - AuthorizationFilter
         - id: token
           uri: http://localhost:8080
           predicates:
