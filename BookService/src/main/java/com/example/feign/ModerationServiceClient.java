@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "ModerationService", url = "http://localhost:8092/")
+@FeignClient(value = "ModerationService", url = "http://moderation-service")
 public interface ModerationServiceClient {
     @RequestMapping(method = RequestMethod.GET, value = "/moderation/{id}/items")
     List<ModerationResultItem> getModerationResultItems(@PathVariable("id") String moderationResultId);

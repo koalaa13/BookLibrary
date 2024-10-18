@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "SubscriptionService", url = "http://localhost:8081")
+@FeignClient(value = "SubscriptionService", url = "http://subscription-service")
 public interface SubscriptionServiceClient {
     @PostMapping("/buy/{userId}")
     boolean buySubscription(@PathVariable("userId") String userId, @RequestBody List<String> bookIds);
