@@ -15,55 +15,55 @@ spring:
           useInsecureTrustManager: true
       routes:
         - id: subscription
-          uri: http://localhost:8081
+          uri: http://subscription-service
           predicates:
             - Path=/subscription/**
           filters:
             - RewritePath=/subscription/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
         - id: bookstore
-          uri: http://localhost:8090
+          uri: http://book-service
           predicates:
             - Path=/books/**
           filters:
             - RewritePath=/books/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
         - id: moderatorRequests
-          uri: http://localhost:8092
+          uri: http://moderation-service
           predicates:
             - Path=/moderator/**
           filters:
             - RewritePath=/moderator/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
-        - id: fileModerationGet
-          uri: http://localhost:8082
+        - id: fileGet
+          uri: http://file-service
           predicates:
             - Path=/files/**
           filters:
             - RewritePath=/files/?(?<segment>.*), /api/v1/$\{segment}
             - AuthorizationFilter
         - id: registration
-          uri: http://localhost:8080
+          uri: http://auth-service
           predicates:
             - Path=/registration
           filters:
             - RewritePath=/registration, /auth/user
         - id: moderatorRegistration
-          uri: http://localhost:8080
+          uri: http://moderation-service
           predicates:
             - Path=/registration/moderator
           filters:
             - RewritePath=/registration/moderator, /auth/moderator
             - AuthorizationFilter
         - id: adminRegistration
-          uri: http://localhost:8080
+          uri: http://auth-service
           predicates:
             - Path=/registration/admin
           filters:
             - RewritePath=/registration/admin, /auth/admin
             - AuthorizationFilter
         - id: token
-          uri: http://localhost:8080
+          uri: http://auth-service
           predicates:
             - Path=/login
           filters:
