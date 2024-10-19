@@ -2,6 +2,9 @@ port: 8080
 replicaCount: 1
 
 postgresql:
+  primary:
+    persistence:
+      size: 1Gi
   auth:
     database: app
     postgresPassword: changeme
