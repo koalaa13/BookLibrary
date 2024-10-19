@@ -22,7 +22,7 @@ public class ConsumerKafkaConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                KafkaConstants.KAFKA_HOST);
+                KafkaConstants.KAFKA_CONSUMER_HOST);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,

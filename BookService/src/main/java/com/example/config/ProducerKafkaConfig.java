@@ -25,7 +25,7 @@ public class ProducerKafkaConfig {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                KafkaConstants.KAFKA_HOST);
+                KafkaConstants.KAFKA_PRODUCER_HOST);
         configProps.put(
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
                 StringSerializer.class);
@@ -43,7 +43,7 @@ public class ProducerKafkaConfig {
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConstants.KAFKA_HOST);
+        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConstants.KAFKA_PRODUCER_HOST);
         return new KafkaAdmin(configs);
     }
 
