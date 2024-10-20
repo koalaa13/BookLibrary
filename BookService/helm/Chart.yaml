@@ -27,3 +27,7 @@ dependencies:
   - name: postgresql
     version: "15.0.0"
     repository: "oci://registry-1.docker.io/bitnamicharts"
+  - name: prometheus-postgres-exporter
+    version: "6.1.0"
+    repository: "https://prometheus-community.github.io/helm-charts"
+

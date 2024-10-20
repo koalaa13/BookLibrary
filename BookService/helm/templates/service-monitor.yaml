@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: book-service-metrics-monitor
+  labels:
+    app: book-service-metrics-monitor
+spec:
+  endpoints:
+    - port: book-service-metrics
+      scrapeTimeout: 30s
+      path: /actuator/prometheus
+      honorLabels: true
+      scheme: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: book-service
