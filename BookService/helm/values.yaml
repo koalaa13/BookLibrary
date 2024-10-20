@@ -14,7 +14,7 @@ prometheus-postgres-exporter:
     enabled: true
   config:
     datasource:
-      host: bank-service-postgresql
+      host: book-service-postgresql
       database: app
       user: postgres
       password: changeme

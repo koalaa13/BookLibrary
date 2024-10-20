@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: subscription-service-metrics-monitor
+  labels:
+    app: subscription-service-metrics-monitor
+spec:
+  endpoints:
+    - port: subscription-service-metrics
+      scrapeTimeout: 30s
+      path: /actuator/prometheus
+      honorLabels: true
+      scheme: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: subscription-service
