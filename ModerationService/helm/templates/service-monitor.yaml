@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: moderation-service-metrics-monitor
+  labels:
+    app: moderation-service-metrics-monitor
+spec:
+  endpoints:
+    - port: moderation-service-metrics
+      scrapeTimeout: 30s
+      path: /actuator/prometheus
+      honorLabels: true
+      scheme: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: moderation-service
