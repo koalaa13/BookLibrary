@@ -732,9 +732,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "health",
-          "value": "health"
+          "selected": true,
+          "text": "api/v1/.*",
+          "value": "api/v1/.*"
         },
         "hide": 0,
         "includeAll": false,
@@ -743,26 +743,26 @@
         "name": "uri",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "health",
             "value": "health"
           },
           {
-            "selected": false,
-            "text": "*",
-            "value": "*"
+            "selected": true,
+            "text": "api/v1/.*",
+            "value": "api/v1/.*"
           }
         ],
-        "query": "health, *",
+        "query": "health, api/v1/.*",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
       },
       {
         "current": {
-          "selected": false,
-          "text": "GET",
-          "value": "GET"
+          "selected": true,
+          "text": "POST",
+          "value": "POST"
         },
         "hide": 0,
         "includeAll": false,
@@ -771,12 +771,12 @@
         "name": "method",
         "options": [
           {
-            "selected": true,
+            "selected": false,
             "text": "GET",
             "value": "GET"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "POST",
             "value": "POST"
           },
@@ -811,6 +811,6 @@
   "timezone": "browser",
   "title": "Book service dashboard",
   "uid": "ads91lfojgef4fs",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
