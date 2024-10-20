@@ -9,13 +9,6 @@ postgresql:
     database: app
     postgresPassword: changeme
 
-kube-prometheus-stack:
-  prometheus:
-    prometheusSpec:
-      podMonitorSelectorNilUsesHelmValues: false
-      serviceMonitorSelectorNilUsesHelmValues: false
-      serviceMonitorSelector: { }
-
 prometheus-postgres-exporter:
   serviceMonitor:
     enabled: true

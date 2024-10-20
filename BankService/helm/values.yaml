@@ -8,3 +8,14 @@ postgresql:
   auth:
     database: app
     postgresPassword: changeme
+
+
+prometheus-postgres-exporter:
+  serviceMonitor:
+    enabled: true
+  config:
+    datasource:
+      host: bank-service-postgresql
+      database: app
+      user: postgres
+      password: changeme

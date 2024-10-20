@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: bank-service-metrics-monitor
+  labels:
+    app: bank-service-metrics-monitor
+spec:
+  endpoints:
+    - port: bank-service-metrics
+      scrapeTimeout: 30s
+      path: /actuator/prometheus
+      honorLabels: true
+      scheme: http
+  namespaceSelector:
+    matchNames:
+      - default
+  selector:
+    matchLabels:
+      app: bank-service
