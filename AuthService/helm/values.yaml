@@ -8,3 +8,20 @@ postgresql:
   auth:
     database: app
     postgresPassword: changeme
+
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      podMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorSelector: { }
+
+prometheus-postgres-exporter:
+  serviceMonitor:
+    enabled: true
+  config:
+    datasource:
+      host: auth-service-postgresql
+      database: app
+      user: postgres
+      password: changeme
